@@ -1,0 +1,27 @@
+---
+- hosts: all
+  connection: ssh
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  tasks:
+    - name: Install WEb Server
+      yum:
+        name: httpd
+        state: installed 
+      notify:
+      - HTTPD
+     
+    - name: Install Php
+      yum: 
+        name: php
+        state: installed
+
+    - name: Install DB
+      yum: 
+        name: mariadb
+        state: installed
+
+  handlers: 
+    - name: HTTPD
+      systemd: name=httpd state=restarted    
